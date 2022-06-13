@@ -165,4 +165,7 @@ body {
     .header form {
         width: 300px;
     }
+      .header .outputs .output h2 {
+        font-size: 16px;
+    }
 } ;

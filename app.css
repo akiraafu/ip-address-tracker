@@ -30,6 +30,7 @@ body {
     justify-content: center;
     align-items: center;
     background: url(./images/pattern-bg.png);
+    background-size: cover;
     padding-bottom: 4.5rem;
     position: relative;
 }

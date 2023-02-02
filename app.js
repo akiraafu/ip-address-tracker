@@ -8,102 +8,110 @@ let ispOutput = document.querySelector(".isp");
 
 // See their own IP Address on the map on the initial page load
 const initialPage = () => {
-    let API_URL = `https://geo.ipify.org/api/v2/country,city?apiKey=at_Fjg3Ql55BRq7aCffMc1fEcYzgxkjd&ipAddress=`;
+  let API_URL = `https://geo.ipify.org/api/v2/country,city?apiKey=at_Fjg3Ql55BRq7aCffMc1fEcYzgxkjd&ipAddress=`;
+
+  try {
     const getGeoIp = fetch(API_URL)
-        .then((response) => response.json())
-        .then((ip) => {
-            return [ip.location, ip.isp, ip.ip];
-        });
+      .then((response) => response.json())
+      .then((ip) => {
+        return [ip.location, ip.isp, ip.ip];
+      });
 
     const printAddress = async () => {
-        const a = await getGeoIp;
-        // console.log(a);
+      const a = await getGeoIp;
+      // console.log(a);
 
-        let location = a[0];
-        let getRegion = location["region"];
-        let getCity = location["city"];
-        let timezone = location["timezone"];
-        timezoneOutput.innerHTML = `UTC ${timezone}`;
+      let location = a[0];
+      let getRegion = location["region"];
+      let getCity = location["city"];
+      let timezone = location["timezone"];
+      timezoneOutput.innerHTML = `UTC ${timezone}`;
 
-        locationOutput.innerHTML = `${getCity}, ${getRegion} `;
+      locationOutput.innerHTML = `${getCity}, ${getRegion} `;
 
-        let isp = a[1];
-        ispOutput.innerHTML = `${isp}`;
+      let isp = a[1];
+      ispOutput.innerHTML = `${isp}`;
 
-        let ip = a[2];
-        ipAddress.innerHTML = `${ip}`;
+      let ip = a[2];
+      ipAddress.innerHTML = `${ip}`;
 
-        let lat = location["lat"];
-        let lng = location["lng"];
+      let lat = location["lat"];
+      let lng = location["lng"];
 
-        // map
-        let map = L.map("map").setView([lat, lng], 13);
+      // map
+      let map = L.map("map").setView([lat, lng], 13);
 
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 19,
-            attribution: "© OpenStreetMap",
-        }).addTo(map);
-        let icon = L.icon({
-            iconUrl: "./images/icon-location.svg",
-            iconSize: [36, 46], // size of the icon
-        });
-        let marker = L.marker([lat, lng], { icon: icon }).addTo(map);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "© OpenStreetMap",
+      }).addTo(map);
+      let icon = L.icon({
+        iconUrl: "./images/icon-location.svg",
+        iconSize: [36, 46], // size of the icon
+      });
+      let marker = L.marker([lat, lng], { icon: icon }).addTo(map);
     };
 
     printAddress();
+  } catch (err) {
+    console.log(err.message);
+  }
 };
 
 initialPage();
 
 // use userInput
 button.addEventListener("click", (e) => {
-    e.preventDefault();
-    const inputValue = input.value;
-    ipAddress.innerHTML = inputValue;
+  e.preventDefault();
+  const inputValue = input.value;
+  ipAddress.innerHTML = inputValue;
 
-    let API_URL = `https://geo.ipify.org/api/v2/country,city?apiKey=at_Fjg3Ql55BRq7aCffMc1fEcYzgxkjd&ipAddress=${inputValue}`;
-
+  let API_URL = `https://geo.ipify.org/api/v2/country,city?apiKey=at_Fjg3Ql55BRq7aCffMc1fEcYzgxkjd&ipAddress=${inputValue}`;
+  try {
     const getGeoIp = fetch(API_URL)
-        .then((response) => response.json())
-        .then((ip) => {
-            return [ip.location, ip.isp];
-        });
+      .then((response) => response.json())
+      .then((ip) => {
+        return [ip.location, ip.isp];
+      });
 
     const printAddress = async () => {
-        const a = await getGeoIp;
-        // console.log(a);
+      const a = await getGeoIp;
+      // console.log(a);
 
-        let location = a[0];
-        let getRegion = location["region"];
-        let getCity = location["city"];
-        let timezone = location["timezone"];
-        timezoneOutput.innerHTML = `UTC ${timezone}`;
+      let location = a[0];
+      let getRegion = location["region"];
+      let getCity = location["city"];
+      let timezone = location["timezone"];
+      timezoneOutput.innerHTML = `UTC ${timezone}`;
 
-        locationOutput.innerHTML = `${getCity}, ${getRegion} `;
+      locationOutput.innerHTML = `${getCity}, ${getRegion} `;
 
-        let isp = a[1];
-        ispOutput.innerHTML = `${isp}`;
+      let isp = a[1];
+      ispOutput.innerHTML = `${isp}`;
 
-        let lat = location["lat"];
-        let lng = location["lng"];
+      let lat = location["lat"];
+      let lng = location["lng"];
 
-        // map
-        if (L.DomUtil.get("map") !== undefined) {
-            L.DomUtil.get("map")._leaflet_id = null;
-        }
+      // map
+      if (L.DomUtil.get("map") !== undefined) {
+        L.DomUtil.get("map")._leaflet_id = null;
+      }
 
-        let map = L.map("map").setView([lat, lng], 13);
+      let map = L.map("map").setView([lat, lng], 13);
 
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 19,
-            attribution: "© OpenStreetMap",
-        }).addTo(map);
-        let icon = L.icon({
-            iconUrl: "./images/icon-location.svg",
-            iconSize: [36, 46], // size of the icon
-        });
-        let marker = L.marker([lat, lng], { icon: icon }).addTo(map);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "© OpenStreetMap",
+      }).addTo(map);
+      let icon = L.icon({
+        iconUrl: "./images/icon-location.svg",
+        iconSize: [36, 46], // size of the icon
+      });
+      let marker = L.marker([lat, lng], { icon: icon }).addTo(map);
     };
 
     printAddress();
+  } catch (err) {
+    console.log(err.message);
+  }
 });
